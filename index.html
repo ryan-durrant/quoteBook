@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="quoteBook">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Quote Book</title>
+  </head>
+  <body ng-controller="mainCtrl">
+
+    <h1>{{ryan}}</h1>
+    <p ng-repeat="quote in quotes track by $index">
+      <!--If you are working with objects that have a unique identifier property, you should track by this identifier instead of the object instance. Should you reload your data later, ngRepeat will not have to rebuild the DOM elements for items it has already rendered, even if the JavaScript objects in the collection have been substituted for new ones. For large collections, this significantly improves rendering performance. If you don't have a unique identifier, track by $index can also provide a performance boost.-->
+      <span class='text'>{{quote.text}}</span>
+      <span class='author'>-- {{quote.author}}</span>
+      <button ng-click="deleteMe(quote.text)">Delete</button>
+    </p>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+    <script type="text/javascript" src = "js/app.js"></script>
+    <script type="text/javascript" src = "js/mainCtrl.js"></script>
+    <script type="text/javascript" src = "js/dataService.js"></script>
+  </body>
+</html>
