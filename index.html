@@ -8,11 +8,17 @@
   <body ng-controller="mainCtrl">
 
     <h1>{{ryan}}</h1>
-    <p ng-repeat="quote in quotes track by $index">
+
+    <input type="text" placeholder="Add new quote here" ng-model="newQuoteText">
+    <input type="text" placeholder="Add new author here" ng-model="newQuoteAuthor">
+    <button type="button" ng-click='addQuote(newQuoteText, newQuoteAuthor)'>Add Quote</button><hr>
+    <input type="text" placeholder="Filter the quotes" ng-model='filterText'>
+
+    <p ng-repeat="quote in quotes | filter: filterText track by $index">
       <!--If you are working with objects that have a unique identifier property, you should track by this identifier instead of the object instance. Should you reload your data later, ngRepeat will not have to rebuild the DOM elements for items it has already rendered, even if the JavaScript objects in the collection have been substituted for new ones. For large collections, this significantly improves rendering performance. If you don't have a unique identifier, track by $index can also provide a performance boost.-->
       <span class='text'>{{quote.text}}</span>
       <span class='author'>-- {{quote.author}}</span>
-      <button ng-click="deleteMe(quote.text)">Delete</button>
+      <button ng-click="deleteThis($index)">Delete</button>
     </p>
 
 

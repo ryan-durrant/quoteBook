@@ -30,21 +30,62 @@ quoteBook.service("dataService", function() {
     ];
 
     this.getQuotes = function() {
+      if(!localStorage.quoteLocalStorage){
         return quotes;
+      }
+      return JSON.parse(localStorage.quoteLocalStorage);
+
     };
 
     this.addData = function(newQuote) {
-        if (typeof newQuote.text == 'string' && newQuote.text && typeof newQuote.author == 'string' && newQuote.author) {
-            quotes.push(newQuote);
+        if (
+          typeof newQuote.text == 'string' &&
+          newQuote.text &&
+          typeof newQuote.author == 'string' &&
+          newQuote.author
+        ) {
+          var currentQuotes;
+          if(localStorage.quoteLocalStorage){
+            currentQuotes = JSON.parse(localStorage.quoteLocalStorage);
+          }
+          else {
+            currentQuotes = quotes;
+          }
+
+          localStorage.setItem(
+            'quoteLocalStorage',
+            JSON.stringify([newQuote].concat(currentQuotes)
+          ));
         }
+
+
     };
 
-    this.removeData = function(quoteText) {
-        for (var i = quotes.length - 1; i >= 0; i--) {
-            //console.log(quotes[i].text);
-            if (quotes[i].text === quoteText) {
-                quotes.splice(i, 1);
-            }
+    this.removeData = function(index) {
+      var currentQuotes;
+      if(localStorage.quoteLocalStorage){
+        currentQuotes = JSON.parse(localStorage.quoteLocalStorage);
+      }
+      else {
+        currentQuotes = quotes;
+      }
+
+      //filter is an array method that returns an array
+      var newArrQuotes = currentQuotes.filter(function(e, i){
+        if(i !== index){
+          return e;
         }
+      });
+
+        localStorage.setItem('quoteLocalStorage', JSON.stringify(newArrQuotes));
     };
+
+    // this.saveState = function() {
+    //   localStorage.quoteLocalStorage = JSON.stringify(quotes);
+    // };
+
+    // this.restoreState = function() {
+    //   quotes = JSON.parse(localStorage.quoteLocalStorage);
+    // };
+
 });
